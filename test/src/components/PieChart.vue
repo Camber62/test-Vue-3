@@ -50,16 +50,16 @@ export default {
     const normalizeColor = (color) => (typeof color === 'string' ? color : color.hex || '#2f67da');
 
     const chartData = computed(() => ({
-      labels: sectors.value.map((sector) => sector.label),
+      labels: sectors.value.map(sector => sector.label),
       datasets: [{
-        data: sectors.value.map((sector) => sector.value),
-        backgroundColor: sectors.value.map((sector) => normalizeColor(sector.color)),
+        data: sectors.value.map(sector => sector.value),
+        backgroundColor: sectors.value.map(sector => normalizeColor(sector.color)),
       }],
     }));
 
     const addOrUpdateSector = () => {
       formData.value.color = normalizeColor(formData.value.color);
-      if (isEditing.value && editingIndex.value !== null) {
+      if (isEditing.value) {
         sectors.value[editingIndex.value] = { ...formData.value };
       } else {
         sectors.value.push({ ...formData.value });
@@ -89,7 +89,6 @@ export default {
       showForm.value = !showForm.value;
     };
 
-    // Debounce function to limit how often the scroll handler is called
     const debounce = (func, delay) => {
       let timeout;
       return (...args) => {

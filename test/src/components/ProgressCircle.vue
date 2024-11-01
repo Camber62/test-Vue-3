@@ -17,11 +17,8 @@
           :stroke-dasharray="`${progress}, 100`"
           d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
       />
-
-      <!-- Центрированный текст или иконка -->
       <text v-if="type === 'default'" x="18" y="20.35" class="percentage">{{ progress }}%</text>
       <text v-else x="18" y="20.35" class="icon" :fill="color">
-        <!-- Вывод иконки в зависимости от статуса -->
         <tspan v-if="status === 'success'">✔️</tspan>
         <tspan v-else-if="status === 'error'">❌</tspan>
         <tspan v-else-if="status === 'warning'">⚠️</tspan>
@@ -55,32 +52,24 @@ export default defineComponent({
   },
   setup(props) {
     const progress = ref(props.value);
+
     const color = computed(() => {
-      if (progress.value < 30) return '#f44336'; // Красный для низкого прогресса
-      else if (progress.value < 70) return '#ffc107'; // Желтый для среднего прогресса
-      else return '#4caf50'; // Зеленый для высокого прогресса
+      if (progress.value < 30) return '#f44336';
+      else if (progress.value < 70) return '#ffc107';
+      return '#4caf50'; // Green for success
     });
 
-    // Обновление прогресса при изменении значения
-    watch(
-        () => props.value,
-        (newVal) => {
-          progress.value = newVal;
-        },
-        { immediate: true }
-    );
+    watch(() => props.value, (newVal) => {
+      progress.value = newVal;
+    }, { immediate: true });
 
     const statusClass = computed(() => {
-      switch (props.status) {
-        case 'success':
-          return 'success';
-        case 'warning':
-          return 'warning';
-        case 'error':
-          return 'error';
-        default:
-          return 'in-progress';
-      }
+      return {
+        success: props.status === 'success',
+        warning: props.status === 'warning',
+        error: props.status === 'error',
+        'in-progress': props.status === 'in-progress',
+      };
     });
 
     return { progress, color, statusClass };
@@ -119,14 +108,12 @@ export default defineComponent({
   fill: #333;
 }
 
-/* Стили для иконок */
 .icon {
   font-size: 0.7em;
   text-anchor: middle;
   dominant-baseline: middle;
 }
 
-/* Вращение круга при включении типа dashboard */
 .dashboard-type .circle {
   transform: rotate(-90deg);
   transform-origin: 50% 50%;

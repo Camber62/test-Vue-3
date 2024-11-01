@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Pie :data="chartData" :options="options" />
+    <Pie :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      options: {
+      chartOptions: {
         responsive: true,
         plugins: {
           legend: {
@@ -38,5 +38,4 @@ export default {
 </script>
 
 <style scoped>
-/* Style for chart component */
 </style>
